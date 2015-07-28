@@ -1,0 +1,19 @@
+{
+  "name": "express-route-manager",
+  "version": "0.1.0",
+  "description": "Testable controllers for ExpressJs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/klugjo/express-route-manager.git"
+  },
+  "author": "Klughertz Jonathan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/klugjo/express-route-manager/issues"
+  },
+  "homepage": "https://github.com/klugjo/express-route-manager"
+}
