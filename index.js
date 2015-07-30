@@ -3,10 +3,11 @@ var _ = require('lodash');
 
 /**
  * Initialize the Route Manager
- * @param opts initialization options
- * @param opts.app express app
- * @param opts.authenticated used to check if the user is authenticated. fn(req, res, next) {..} -> call next if authenticated.
- * @param opts.checkRole used to check the role. fn(role) { return fn(req, res, next) {..}} -> call next of role is OK.
+ * @param opts - initialization options
+ * @param opts.app - express app
+ * @param opts.authenticated - used to check if the user is authenticated. fn(req, res, next) {..} -> call next if authenticated.
+ * @param opts.checkRole - used to check the role. fn(role) { return fn(req, res, next) {..}} -> call next if role is OK.
+ * @param opts.actions - Additional actions
  * @constructor
  */
 function RouteManager(opts) {
@@ -14,7 +15,7 @@ function RouteManager(opts) {
     var defaultActions = {
 
         // Encapsulation of the next callback in express routes
-        next: function(req, res, next, data) {
+        next: function(req, res, next) {
             next();
         },
         // Render view
@@ -74,6 +75,7 @@ function RouteManager(opts) {
  * set a new route
  * @param {Object} routeData - route options
  * @param {Object} routeData.app - express app if not set during init or using a different app
+ * @param {String} routeData.method - request method (GET, POST, ..). Must be supported by express
  * @param {string} routeData.route - Url path
  * @param {boolean} routeData.authenticated - Check if the user is authenticated
  * @param {string} routeData.role - Check if the user is in the current role
@@ -93,6 +95,8 @@ RouteManager.prototype.set = function set(routeData){
     if(!app) {
         throw new Error('No express application specified in Express Route Manager');
     }
+
+    routeData.method = routeData.method.toLowerCase() || 'get';
 
     if(app[routeData.method] && typeof app[routeData.method] === 'function') {
         method = app[routeData.method];
