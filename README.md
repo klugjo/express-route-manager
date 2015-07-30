@@ -9,13 +9,13 @@ Allows you to setup expressJS routes and use easy to test controllers.
 This is how you setup your routes using the route manager
 
 ```javascript
-    routeManager.set({
-        method: 'get',
-        route: '/test-json',
-        authenticated: true,
-        role: 'admin',
-        actions: [ctrl.returnJson]
-    });
+routeManager.set({
+    method: 'get', // Method can be any of the methods supported by express
+    route: '/test-json', // The route as you would set it up in Express
+    authenticated: true, // If the user should be authenticated (Optional)
+    role: 'admin', // If the user should be of a specific role (Optional)
+    actions: [controller.returnJson] // The controller actions to be executed
+});
 ```
 ### Setup controller
 
@@ -25,23 +25,23 @@ This is what your controller method should look like
 // No res or next here
 exports.returnJson = function (req) {
 
-    // Use any other promise framework
-    var deferred = Q.defer();
+// Or use any other promise framework
+var deferred = Q.defer();
 
-    // Do anything async here
-    setTimeout(function () {
+// Do anything async here
+setTimeout(function () {
 
-        deferred.resolve({
-            // The res will be generated based on the 
-            // name of the object returned.
-            // Here JSON
-            json: {
-                test: 'test'
-            }
-        });
-    }, 500);
+    deferred.resolve({
+        // The res will be generated based on the 
+        // name of the object returned.
+        // Here JSON
+        json: {
+            test: 'test'
+        }
+    });
+}, 500);
 
-    return deferred.promise;
+return deferred.promise;
 };
 ```
 
@@ -52,9 +52,9 @@ This controller is easier to test because you only have to mock the request. To 
 This is what will be returned when hitting `/test-json`
 
 ```javascript
-    {
-        test: "test"
-    }
+{
+    test: "test"
+}
 ```
 
 ## How it works
@@ -75,9 +75,9 @@ Based on the name of the object returned by the controller, the route manager wi
 This is what the default json route manager action looks like:
 
 ```javascript
-    json: function (req, res, next, data) {
-        res.send(data.json);
-    }
+json: function (req, res, next, data) {
+    res.send(data.json);
+}
 ```
 
 If the controller returns `{json: { // Object to return ... }}`, the route manager will execute `res.send({ // Object to return ... });`
@@ -89,12 +89,12 @@ Keep in mind that controllers should always return promises.
 This is what the default render route manager action looks like:
 
 ```javascript
-    render: function (req, res, next, data) {
-        res.render(data.render.viewPath, data.render.viewData);
-    },
+render: function (req, res, next, data) {
+    res.render(data.render.viewPath, data.render.viewData);
+}
 ```
 
-If the controller return `{render: {viewPath: '/path/to/view', viewData: obj}}, the route manager will execute `res.render('/path/to/view', obj);`
+If the controller returns `{render: {viewPath: '/path/to/view', viewData: obj}}`, the route manager will execute `res.render('/path/to/view', obj);`
 
 ### Custom actions
 
