@@ -6,6 +6,8 @@ var q = require('q'),
     sinonChai = require('sinon-chai'),
     RouteManager = require('../index');
 
+chai.use(sinonChai);
+
 describe('express-route-manager tests: ', function () {
 
     describe('RouteManager constructor', function () {
@@ -58,6 +60,24 @@ describe('express-route-manager tests: ', function () {
             expect(defaultActions.redirect).to.be.ok;
             expect(defaultActions.redirect).to.not.equal(customActions.redirect);
             expect(routeManager._customActions.redirect).to.equal(customActions.redirect);
+        });
+    });
+
+    describe('Route Manager set route', function () {
+
+        it('calls the corresponding function on the express app', function () {
+
+            var app = {get: function() {}},
+                spy = sinon.spy(app, "get"),
+                routeManager = new RouteManager({app: app});
+
+            routeManager.set({
+                method: 'get',
+                route: '/test',
+                actions: [function () {}]
+            });
+
+            expect(spy).to.have.been.called;
         });
     });
 });

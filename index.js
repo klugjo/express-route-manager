@@ -74,11 +74,11 @@ function RouteManager(opts) {
 /**
  * set a new route
  * @param {Object} routeData - route options
- * @param {Object} routeData.app - express app if not set during init or using a different app
+ * @param {Object} [routeData.app] - express app if not set during init or using a different app
  * @param {String} routeData.method - request method (GET, POST, ..). Must be supported by express
  * @param {string} routeData.route - Url path
- * @param {boolean} routeData.authenticated - Check if the user is authenticated
- * @param {string} routeData.role - Check if the user is in the current role
+ * @param {boolean} [routeData.authenticated] - Check if the user is authenticated
+ * @param {string} [routeData.role] - Check if the user is in the current role
  * @param {routeAction[]} routeData.actions - Array of routeActions that will be executed in order
  */
 RouteManager.prototype.set = function set(routeData){
